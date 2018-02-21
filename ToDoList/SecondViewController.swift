@@ -10,6 +10,18 @@ import UIKit
 
 class SecondViewController: UIViewController {
 
+    @IBOutlet weak var itemText: UITextField!
+    
+    @IBAction func addItem(_ sender: Any) {
+        
+        // let itemsObject = UserDefaults.standard.object(forKey: "items")
+        
+       //  if let items = itemsObject as? NSMutableArray {
+            
+        //}
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
