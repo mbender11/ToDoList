@@ -12,11 +12,28 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // Testing github with Xcode!
     
-    var toDoListArray = ["Placeholder for now"]
+    @IBOutlet weak var table: UITableView!
+    
+    
+    var toDoListArray: [String] = []
     
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return toDoListArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            
+            toDoListArray.remove(at: indexPath.row)
+            
+            table.reloadData()
+            
+            UserDefaults.standard.set(toDoListArray, forKey: "items")
+            
+        }
+        
     }
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -31,6 +48,21 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let itemsObject = UserDefaults.standard.object(forKey: "items")
+        
+        if let newItems = itemsObject as? [String] {
+            
+            toDoListArray = newItems
+            
+        }
+        
+        table.reloadData()
+        
     }
 
     override func didReceiveMemoryWarning() {

@@ -8,18 +8,42 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var itemText: UITextField!
     
     @IBAction func addItem(_ sender: Any) {
         
-        // let itemsObject = UserDefaults.standard.object(forKey: "items")
+        let itemsObject = UserDefaults.standard.object(forKey: "items")
+        var items: [String]
         
-       //  if let items = itemsObject as? NSMutableArray {
+        if let newItems = itemsObject as? [String] {
             
-        //}
+            items = newItems
+            items.append(itemText.text!)
+            
+        } else {
+            
+            items = [itemText.text!]
+            
+        }
         
+        UserDefaults.standard.set(items, forKey: "items")
+        
+        // reset text field
+        itemText.text = ""
+        
+    }
+    
+    // close keyboard when touching outside of keyboard
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // close keyboard when return is pressed
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     override func viewDidLoad() {
